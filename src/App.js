@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useState } from 'react'
+import {
+  BrowserRouter as Router,
+   Switch,
+    Route
+   } from 'react-router-dom'
+import TopMenu from './components/TopMenu'
+import Home from './scenes/Home'
+import Login from './scenes/Login'
+import Signup from './scenes/Signup'
+//import 'bootstrap/dist/css/bootstrap.min.css';
+//import './App.css';
 
+export const UserContext = createContext(null)
+
+
+//putting menu outside the switch puts it on every page
 function App() {
+  const [user, setUser] = useState(null)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <UserContext.Provider value={{ user, setUser }}>
+   <Router>
+     <TopMenu /> 
+     <Switch>
+       <Route path="/login" component={Login} />
+       <Route path="/signup"  component={Signup}/>
+       <Route path="/" component={Home} />
+     </Switch>
+   </Router>
+   </UserContext.Provider>
+  )
 }
 
 export default App;
