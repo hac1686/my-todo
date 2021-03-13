@@ -4,12 +4,18 @@ import {
    Switch,
     Route
    } from 'react-router-dom'
+import firebase from 'firebase'
 import TopMenu from './components/TopMenu'
 import Home from './scenes/Home'
 import Login from './scenes/Login'
 import Signup from './scenes/Signup'
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import { firebaseConfig } from './fbConfig'
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 //import './App.css';
+
+firebase.initializeApp(firebaseConfig) //using method from library and pass it our config
+const fbAuth = firebase.auth()
+
 
 export const UserContext = createContext(null)
 
@@ -18,7 +24,8 @@ export const UserContext = createContext(null)
 function App() {
   const [user, setUser] = useState(null)
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+                                //fbAuth is available anywhere in the application from here
+    <UserContext.Provider value={{ user, setUser, fbAuth }}> 
    <Router>
      <TopMenu /> 
      <Switch>
